@@ -1,381 +1,67 @@
-/*! HTML5 Boilerplate v9.0.1 | MIT License | https://html5boilerplate.com/ */
+/* Karta i fullskärm */
+html, body { margin: 0; height: 100%; }
+#map { width: 100%; height: 100%; position: relative; z-index: 1;}
 
-/* main.css 3.0.0 | MIT License | https://github.com/h5bp/main.css#readme */
-/*
- * What follows is the result of much research on cross-browser styling.
- * Credit left inline and big thanks to Nicolas Gallagher, Jonathan Neal,
- * Kroc Camen, and the H5BP dev community and team.
- */
-
-/* ==========================================================================
-   Base styles: opinionated defaults
-   ========================================================================== */
-
-html {
-  color: #222;
-  font-size: 1em;
-  line-height: 1.4;
-}
-
-/*
- * Remove text-shadow in selection highlight:
- * https://twitter.com/miketaylr/status/12228805301
- *
- * Customize the background color to match your design.
- */
-
-::-moz-selection {
-  background: #b3d4fc;
-  text-shadow: none;
-}
-
-::selection {
-  background: #b3d4fc;
-  text-shadow: none;
-}
-
-/*
- * A better looking default horizontal rule
- */
-
-hr {
-  display: block;
-  height: 1px;
-  border: 0;
-  border-top: 1px solid #ccc;
-  margin: 1em 0;
-  padding: 0;
-}
-
-/*
- * Remove the gap between audio, canvas, iframes,
- * images, videos and the bottom of their containers:
- * https://github.com/h5bp/html5-boilerplate/issues/440
- */
-
-audio,
-canvas,
-iframe,
-img,
-svg,
-video {
-  vertical-align: middle;
-}
-
-/*
- * Remove default fieldset styles.
- */
-
-fieldset {
-  border: 0;
-  margin: 0;
-  padding: 0;
-}
-
-/*
- * Allow only vertical resizing of textareas.
- */
-
-textarea {
-  resize: vertical;
-}
-
-/* ==========================================================================
-   Author's custom styles
-   ========================================================================== */
-
-/* ==========================================================================
-   Helper classes
-   ========================================================================== */
-
-/*
- * Hide visually and from screen readers
- */
-
-.hidden,
-[hidden] {
-  display: none !important;
-}
-
-/*
- * Hide only visually, but have it available for screen readers:
- * https://snook.ca/archives/html_and_css/hiding-content-for-accessibility
- *
- * 1. For long content, line feeds are not interpreted as spaces and small width
- *    causes content to wrap 1 word per line:
- *    https://medium.com/@jessebeach/beware-smushed-off-screen-accessible-text-5952a4c2cbfe
- */
-
-.visually-hidden {
-  border: 0;
-  clip: rect(0, 0, 0, 0);
-  height: 1px;
-  margin: -1px;
-  overflow: hidden;
-  padding: 0;
+/* Panel ovanpå kartan – placerad längst ned */
+#ui {
   position: absolute;
-  white-space: nowrap;
-  width: 1px;
-  /* 1 */
+  z-index: 3000;
+  bottom: 1.5rem;                    /* istället för top – placerar den vid nederkant */
+  left: 50%;
+  transform: translateX(-50%);
+  /* background: rgba(23,26,43,.85); */
+  color: #e9ecff;
+  padding: 1rem 1.25rem;
+  /* border-radius: 12px; */
+  text-align: center;
+  font-family: comfortaa, system-ui, sans-serif;
+  /* box-shadow: 0 10px 24px rgba(0,0,0,.35); */
 }
 
-/*
- * Extends the .visually-hidden class to allow the element
- * to be focusable when navigated to via the keyboard:
- * https://www.drupal.org/node/897638
- */
+#ui h1{ margin: 0 0 .5rem; font-size: 1.2rem; color: #a7c5ff; }
+#ui input{
+  padding: .5rem .8rem; border-radius: 8px; border: 1px solid #333;
+  margin-right: .5rem; min-width: 220px;
+}
+#ui button{
+  background: linear-gradient(180deg, #fafafb, #ffffff);
+  opacity: 50;
+  color: #110d7e; border: none; border-radius: 8px;
+  font-weight: 800; padding: .5rem .75rem; cursor: pointer;
+  margin-right: .25rem;
+}
+#ui p{ margin: .5rem 0 0; font-size: .9rem; color: #b4b9d5; }
 
-.visually-hidden.focusable:active,
-.visually-hidden.focusable:focus {
-  clip: auto;
+/* === Logotyp: start i mitten (overlay över allt) === */
+#logo {
+  position: fixed;                 /* ligger över hela viewporten */
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: min(60vw, 700px);
   height: auto;
-  margin: 0;
-  overflow: visible;
-  position: static;
-  white-space: inherit;
-  width: auto;
+  z-index: 1500;                   /* över kartan och UI */
+  pointer-events: none;            /* blockera inte klick */
+  opacity: 1;                      /* synlig direkt och stannar kvar */
+  transition:
+    top .6s ease, right .6s ease, left .6s ease,
+    transform .6s ease, width .6s ease, opacity .6s ease;
 }
 
-/*
- * Hide visually and from screen readers, but maintain layout
- */
-
-.invisible {
-  visibility: hidden;
+/* === Efter sök: loggan flyttas in i headerns högra hörn === */
+#logo.in-header {
+  position: absolute;              /* nu relativt .site-header */
+  top: 8px;
+  right: 16px;
+  left: auto;
+  transform: none;
+  width: 140px;                    /* liten header-logga */
+  z-index: 10;
+  opacity: 1;
 }
 
-/*
- * Clearfix: contain floats
- *
- * The use of `table` rather than `block` is only necessary if using
- * `::before` to contain the top-margins of child elements.
- */
-
-.clearfix::before,
-.clearfix::after {
-  content: "";
-  display: table;
-}
-
-.clearfix::after {
-  clear: both;
-}
-
-/* ==========================================================================
-   EXAMPLE Media Queries for Responsive Design.
-   These examples override the primary ('mobile first') styles.
-   Modify as content requires.
-   ========================================================================== */
-
-@media only screen and (min-width: 35em) {
-  /* Style adjustments for viewports that meet the condition */
-}
-
-@media print,
-  (-webkit-min-device-pixel-ratio: 1.25),
-  (min-resolution: 1.25dppx),
-  (min-resolution: 120dpi) {
-  /* Style adjustments for high resolution devices */
-}
-
-/* ==========================================================================
-   Print styles.
-   Inlined to avoid the additional HTTP request:
-   https://www.phpied.com/delay-loading-your-print-css/
-   ========================================================================== */
-
-@media print {
-  *,
-  *::before,
-  *::after {
-    background: #fff !important;
-    color: #000 !important;
-    /* Black prints faster */
-    box-shadow: none !important;
-    text-shadow: none !important;
-  }
-
-  a,
-  a:visited {
-    text-decoration: underline;
-  }
-
-  a[href]::after {
-    content: " (" attr(href) ")";
-  }
-
-  abbr[title]::after {
-    content: " (" attr(title) ")";
-  }
-
-  /*
-   * Don't show links that are fragment identifiers,
-   * or use the `javascript:` pseudo protocol
-   */
-  a[href^="#"]::after,
-  a[href^="javascript:"]::after {
-    content: "";
-  }
-
-  pre {
-    white-space: pre-wrap !important;
-  }
-
-  pre,
-  blockquote {
-    border: 1px solid #999;
-    page-break-inside: avoid;
-  }
-
-  tr,
-  img {
-    page-break-inside: avoid;
-  }
-
-  p,
-  h2,
-  h3 {
-    orphans: 3;
-    widows: 3;
-  }
-
-  h2,
-  h3 {
-    page-break-after: avoid;
-  }
-}
-
-/* Enkel, responsiv layout med modern känsla */
-:root{
-  --bg: #0f1220;
-  --card: #171a2b;
-  --ink: #e9ecff;
-  --muted: #b4b9d5;
-  --accent: #9ae6b4;       /* mild grön */
-  --accent-2: #a7c5ff;     /* mild blå */
-}
-
-* { box-sizing: border-box; }
-html, body { height: 100%; }
-body{
-  margin: 0;
-  font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-  color: var(--ink);
-  background: radial-gradient(60% 80% at 10% 10%, #1b2040 0, #0f1220 55%) no-repeat fixed;
-}
-
-/* Header */
-.site-header{
-  text-align: center;
-  padding: 2.2rem 1rem 1rem;
-}
-.site-header h1{
-  margin: 0 0 .25rem;
-  letter-spacing: .02em;
-  font-weight: 700;
-}
-.tagline{
-  margin: 0;
-  color: var(--muted);
-}
-
-/* Main container */
-#app{
-  max-width: 960px;
-  margin: 0 auto;
-  padding: 1rem;
-}
-
-/* Controls */
-.controls{
-  display: flex;
-  gap: .75rem;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 1rem;
-}
-.controls button{
-  background: linear-gradient(180deg, var(--accent), #6dd6a8);
-  color: #072415;
-  border: none;
-  padding: .7rem 1rem;
-  border-radius: 12px;
-  font-weight: 700;
-  cursor: pointer;
-  box-shadow: 0 8px 20px rgba(0,0,0,.25);
-}
-.controls button:hover{
-  transform: translateY(-1px);
-}
-.toggle, .count{
-  display: inline-flex;
-  gap: .5rem;
-  align-items: center;
-  background: #12162a;
-  padding: .55rem .75rem;
-  border-radius: 10px;
-  color: var(--muted);
-}
-.count select{
-  background: #0e1326;
-  color: var(--ink);
-  border: 1px solid #2a2f4a;
-  border-radius: 8px;
-  padding: .3rem .45rem;
-}
-
-/* Status */
-#status{
-  min-height: 1.5rem;
-  text-align: center;
-  color: var(--muted);
-  margin-bottom: .5rem;
-}
-
-/* Result */
-.result{
-  display: grid;
-  gap: 1rem;
-}
-.card{
-  background: linear-gradient(180deg, #171a2b, #101327);
-  border: 1px solid #262a48;
-  border-radius: 16px;
-  padding: 1.2rem 1.1rem;
-  box-shadow: 0 10px 26px rgba(0,0,0,.28);
-}
-.title{
-  margin: 0 0 .25rem;
-  font-size: clamp(1.4rem, 2.2vw + 1rem, 2.4rem);
-  color: var(--accent-2);
-  letter-spacing: .03em;
-}
-.subtitle{
-  margin: 0;
-  color: var(--muted);
-}
-
-/* Grid-lista */
-.grid{
-  list-style: none;
-  padding: 0;
-  margin: .25rem 0 0;
-  display: grid;
-  gap: .8rem;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-}
-.grid li{
-  background: #12152a;
-  border: 1px solid #262a48;
-  border-radius: 12px;
-  padding: .8rem .9rem;
-  color: #dfe5ff;
-}
-
-/* Footer */
-.site-footer{
-  text-align: center;
-  padding: 1.5rem .75rem 2rem;
-  color: var(--muted);
+/* Hjälpklass för dold text (tillgänglighet) */
+.visually-hidden {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0,0,1px,1px); white-space: nowrap; border: 0;
 }
