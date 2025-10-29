@@ -1,6 +1,7 @@
 # CSS
 Added styling to search bar and buttons.
 Added custom cursors.
+Added comments.
 
 # JS
 Added API.
@@ -12,6 +13,7 @@ Added comments.
 
 # HTML Added structure to HTML.
 Added logo.
+Added comments.
 
 Created project using HTML5 Boilerplate.
 Added gitignore.

@@ -1,7 +1,3 @@
-/*
-AUDIO ATLAS – Som ett Google Maps för öronen.
-*/
-
 // Först i filen ligger projektets alla DOM-element.
 const cityInput = document.getElementById('cityInput');
 const searchBtn = document.getElementById('searchBtn');
