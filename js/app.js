@@ -13,14 +13,18 @@ document.addEventListener('DOMContentLoaded', () => {
   const playBtn   = document.getElementById('playBtn');
   const statusEl  = document.getElementById('status');
   const logoEl    = document.getElementById('logo');
-  const prefixEl = document.getElementById('inputPrefix');
-
+  const prefixEl  = document.getElementById('inputPrefix');
   const inputWrap = prefixEl?.parentElement;
-  // 2) Skapa Leaflet-kartan
+
+  // 2) Skapa Leaflet-kartan (med din API-nyckel)
   const map = L.map('map').setView([35.0, 13.0], 3);
+
   L.tileLayer(
-    'https://tiles.stadiamaps.com/tiles/stamen_watercolor/{z}/{x}/{y}.jpg',
-    { maxZoom: 16, attribution: '© Stadia Maps © Stamen Design © OSM' }
+    'https://tiles-eu.stadiamaps.com/tiles/stamen_watercolor/{z}/{x}/{y}.jpg?api_key=4cb41a99-be51-4840-bab5-6dcf54a4deb4',
+    {
+      maxZoom: 16,
+      attribution: '© Stadia Maps © Stamen Design © OpenStreetMap'
+    }
   ).addTo(map);
 
   let marker = null;
@@ -162,22 +166,16 @@ document.addEventListener('DOMContentLoaded', () => {
   document.addEventListener("click", unlockAudioOnce, { once: true });
 });
 
+// --- Dynamisk justering av input-prefix (för “Take me to …”) ---
 function updatePrefixPadding() {
   if (!prefixEl || !inputWrap) return;
-  const w = prefixEl.offsetWidth; // faktisk px-bredd på prefixet
+  const w = prefixEl.offsetWidth;
   inputWrap.style.setProperty('--prefix-w', `${w}px`);
 }
 
-// Kör vid start och när fönstret ändrar storlek (responsivt)
 updatePrefixPadding();
 window.addEventListener('resize', updatePrefixPadding);
 
-// (Valfritt) ändra prefixets färg när man skriver/har fokus
 cityInput.addEventListener('focus', () => prefixEl.style.opacity = '1');
 cityInput.addEventListener('blur',  () => prefixEl.style.opacity = '1');
-
-// (Valfritt) visa “Take me to …” med ellipsis när fältet är tomt
-cityInput.addEventListener('input', () => {
-  // Prefixet är statiskt “Take me to”
-  // Placeholder i input visar "..." när tomt – användaren ser ändå meningen som helhet
-});
+cityInput.addEventListener('input', () => {});

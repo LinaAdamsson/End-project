@@ -6,6 +6,7 @@ Added custom cursors.
 Added API.
 Created fetch functions.
 Added city sounds.
+Added API key.
 
 # HTML Added structure to HTML.
 Added logo.
