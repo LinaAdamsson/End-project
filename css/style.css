@@ -2,6 +2,27 @@
 html, body { margin: 0; height: 100%; }
 #map { width: 100%; height: 100%; position: relative; z-index: 1;}
 
+
+/* Riktig flygplans-cursor på sökknappen */
+#searchBtn, #searchBtn:hover {
+  cursor:
+    url('data:image/svg+xml;utf8,\
+<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 64 64">\
+<path fill="%230a1a44" d="M57 7L8 28l14 6 7 20 8-14 14 6z"/>\
+<path fill="%230a1a44" d="M31 39l4-7 9 4-13 3z"/>\
+</svg>') 6 6,
+    pointer !important;
+}
+#playBtn, #playBtn:hover {
+  cursor:
+    url('data:image/svg+xml;utf8,\
+<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 64 64">\
+<path fill="%230a1a44" d="M10 24h8l16-12v40L18 40h-8V24z"/>\
+<path fill="%230a1a44" d="M44 24a8 8 0 0 1 0 16v-4a4 4 0 0 0 0-8v-4z"/>\
+<path fill="%230a1a44" d="M50 16a16 16 0 0 1 0 32v-4a12 12 0 0 0 0-24v-4z"/>\
+</svg>') 6 8,
+    pointer !important;
+}
 /* Panel ovanpå kartan – placerad längst ned */
 #ui {
   position: absolute;
@@ -24,7 +45,7 @@ html, body { margin: 0; height: 100%; }
   margin-right: .5rem; min-width: 220px;
 }
 #ui button{
-  background: linear-gradient(180deg, #fafafb, #ffffff);
+  background: rgba(255, 255, 255, 0.8);
   opacity: 50;
   color: #110d7e; border: none; border-radius: 8px;
   font-weight: 800; padding: .5rem .75rem; cursor: pointer;
@@ -64,4 +85,59 @@ html, body { margin: 0; height: 100%; }
 .visually-hidden {
   position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
   overflow: hidden; clip: rect(0,0,1px,1px); white-space: nowrap; border: 0;
+}
+
+.dynamic-text {
+  display: block;
+  position: relative;
+  top: 0.2rem;
+  color: #a7c5ff;
+  font-family: comfortaa, system-ui, sans-serif;
+  font-size: 0.9rem;
+  margin: 0.3rem 0 0.5rem;
+  opacity: 0.9;
+  text-align: center;
+  z-index: 2000; /* viktigt så att texten inte hamnar bakom UI */
+}
+
+.input-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.8); /* svag bakgrund så text syns mot kartan */
+  border: none;                         /* 🚫 ingen kantlinje */
+  border-radius: 8px;
+  padding: 0.4rem 0.6rem;
+  min-width: 280px;
+  max-width: 360px;
+  margin: 0 auto 0.5rem auto;
+  backdrop-filter: blur(6px);           /* ger lite frostad glas-effekt */
+}
+
+/* Prefixtexten “Take me to” */
+.input-prefix {
+  color: #110d7e;
+  font-family: comfortaa, system-ui, sans-serif;
+  font-size: 1rem;
+  font-weight: 550;
+  margin-right: 0.4rem;
+  white-space: nowrap;
+}
+
+/* Själva inputfältet */
+.input-wrap input {
+  border: none !important;   /* 🚫 tar bort standardkanten */
+  outline: none !important;  /* 🚫 tar bort blå focusram */
+  box-shadow: none !important; /* 🚫 tar bort eventuella skuggkanter */
+  flex: 1;
+  font-family: comfortaa, system-ui, sans-serif;
+  font-size: 1rem;
+  font-weight: 550;
+  color: #110d7e;
+  background: transparent;
+}
+
+/* Fixa placeholdern (den lilla “...” delen) */
+.input-wrap input::placeholder {
+  color: #110d7e;
 }

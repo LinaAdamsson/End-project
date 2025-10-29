@@ -8,11 +8,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // 1) Hämta UI-element
   const cityInput = document.getElementById('cityInput');
+  const dynamicText = document.getElementById('dynamicText');
   const searchBtn = document.getElementById('searchBtn');
   const playBtn   = document.getElementById('playBtn');
   const statusEl  = document.getElementById('status');
   const logoEl    = document.getElementById('logo');
+  const prefixEl = document.getElementById('inputPrefix');
 
+  const inputWrap = prefixEl?.parentElement;
   // 2) Skapa Leaflet-kartan
   const map = L.map('map').setView([35.0, 13.0], 3);
   L.tileLayer(
@@ -86,7 +89,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Uppdatera karta
   function focusCityOnMap({ lat, lon, name }) {
-    map.flyTo([lat, lon], 12, { duration: 2 });
+    map.flyTo([lat, lon], 11, { duration: 2 });
     if (marker) marker.remove();
     marker = L.marker([lat, lon]).addTo(map).bindPopup(`<b>${name}</b>`).openPopup();
     const typed = (cityInput.value || "").trim();
@@ -97,10 +100,10 @@ document.addEventListener('DOMContentLoaded', () => {
   // Sök-knappen: spela ljud, vänta, sedan flytta karta
   searchBtn.addEventListener('click', async () => {
     const city = cityInput.value.trim();
-    if (!city) { setStatus('Skriv in en stad först.'); return; }
+    if (!city) { setStatus(); return; }
 
     try {
-      setStatus("Lyssnar på startljud...");
+      setStatus();
       // 1️⃣ Spela intro-ljud och vänta tills det är klart
       await playAndWait(INTRO_SOUND);
 
@@ -123,8 +126,13 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // Enter i input = klicka sök
-  cityInput.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter') searchBtn.click();
+  cityInput.addEventListener('input', () => {
+    const value = cityInput.value.trim();
+    if (value) {
+      dynamicText.textContent = `Take me to ${value}`;
+    } else {
+      dynamicText.textContent = "Take me to...";
+    }
   });
 
   // Spela / Stoppa stadens ljud
@@ -133,14 +141,14 @@ document.addEventListener('DOMContentLoaded', () => {
       currentAudio.pause();
       currentAudio.currentTime = 0;
       playBtn.textContent = "Listen";
-      setStatus("Ljud stoppat.");
+      setStatus();
       return;
     }
     const city = (playBtn.dataset.city || "").toLowerCase();
     const url  = CITY_SOUND_OVERRIDES[city] || DEFAULT_CITY_AMBIENCE;
     playUrl(url);
-    playBtn.textContent = "Stop";
-    setStatus("Spelar ljud för " + (city || "okänd stad") + "...");
+    playBtn.textContent = "Stop sound";
+    setStatus();
   });
 
   // Lås upp ljuduppspelning på första klicket
@@ -152,4 +160,24 @@ document.addEventListener('DOMContentLoaded', () => {
     s.play().finally(() => { audioUnlocked = true; });
   }
   document.addEventListener("click", unlockAudioOnce, { once: true });
+});
+
+function updatePrefixPadding() {
+  if (!prefixEl || !inputWrap) return;
+  const w = prefixEl.offsetWidth; // faktisk px-bredd på prefixet
+  inputWrap.style.setProperty('--prefix-w', `${w}px`);
+}
+
+// Kör vid start och när fönstret ändrar storlek (responsivt)
+updatePrefixPadding();
+window.addEventListener('resize', updatePrefixPadding);
+
+// (Valfritt) ändra prefixets färg när man skriver/har fokus
+cityInput.addEventListener('focus', () => prefixEl.style.opacity = '1');
+cityInput.addEventListener('blur',  () => prefixEl.style.opacity = '1');
+
+// (Valfritt) visa “Take me to …” med ellipsis när fältet är tomt
+cityInput.addEventListener('input', () => {
+  // Prefixet är statiskt “Take me to”
+  // Placeholder i input visar "..." när tomt – användaren ser ändå meningen som helhet
 });

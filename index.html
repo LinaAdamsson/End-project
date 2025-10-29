@@ -20,11 +20,18 @@
 
 <!-- Kontrollpanel ovanpå kartan -->
 <section id="ui" aria-label="Kontroller">
-  <input id="cityInput" type="text" placeholder="Take me to..." />
+  <div class="input-wrap">
+    <label class="input-prefix">Take me to</label>
+    <input id="cityInput" type="text" placeholder="..." />
+  </div>
+
   <button id="searchBtn" type="button">Let's go</button>
   <button id="playBtn" type="button" disabled>Listen</button>
   <p id="status" role="status" aria-live="polite"></p>
 </section>
+
+
+
 
 <!-- Karta i fullskärm -->
 <div id="map" aria-label="Interaktiv karta"></div>

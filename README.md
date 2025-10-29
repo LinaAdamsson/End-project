@@ -1,5 +1,6 @@
 # CSS
 Added styling to search bar and buttons.
+Added custom cursors.
 
 # JS
 Added API.
