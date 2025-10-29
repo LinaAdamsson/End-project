@@ -4,37 +4,53 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Audio Atlas</title>
-  <!-- Din CSS + JS (defer gör att DOM finns innan koden körs) -->
+
+  <!-- 1) Leaflet-kartan: CSS + JS-bibliotek
+       - Leaflet ritar själva kartan i ett <div id="map"> vi har i <main>.
+       - Vi laddar JS som "defer" så att det körs när HTML:en finns i DOM. -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" defer></script>
+
+  <!-- 2) Vår egen CSS för layout och utseende -->
   <link rel="stylesheet" href="css/style.css" />
+
+  <!-- 3) Viktigt: js/config.js måste laddas FÖRE app.js
+         eftersom app.js använder STADIA_API_KEY därifrån. -->
   <script src="js/config.js"></script>
   <script src="js/app.js" defer></script>
 </head>
+
 <body>
+<!-- Header: semantisk rubrik (dold för synliga användare, men bra för skärmläsare).
+     Vi använder headern också som "ankare" när loggan senare flyttas upp. -->
 <header>
-  <!-- (valfritt) dold rubrik för tillgänglighet -->
   <h1 class="visually-hidden">Audio Atlas</h1>
-  <!-- Loggan: börjar i mitten, flyttas upp i headern efter sök -->
+  <!-- Loggan startar stort i mitten av skärmen och flyttas upp till
+       headerns högra hörn när användaren gjort en sökning. -->
   <img id="logo" src="img/audio-atlas.png" alt="Audio Atlas logotyp" />
 </header>
 
-<!-- Kontrollpanel ovanpå kartan -->
-<section id="ui" aria-label="Kontroller">
-  <div class="input-wrap">
-    <label class="input-prefix">Take me to</label>
-    <input id="cityInput" type="text" placeholder="..." />
-  </div>
+<!-- Huvudinnehåll: en kontrollpanel (inputs/knappar) och en karta -->
+<main>
+  <!-- Kontrollpanel: ligger ovanpå kartan längst ned på skärmen -->
+  <section id="ui" aria-label="Kontroller">
+    <!-- Vi bygger meningen "Take me to …" som en label + ett inputfält.
+         Det ger bättre tillgänglighet än att skriva allt i placeholder. -->
+    <div class="input-wrap">
+      <label class="input-prefix" for="cityInput">Take me to</label>
+      <input id="cityInput" type="text" placeholder="..." />
+    </div>
 
-  <button id="searchBtn" type="button">Let's go</button>
-  <button id="playBtn" type="button" disabled>Listen</button>
-  <p id="status" role="status" aria-live="polite"></p>
-</section>
+    <!-- Knappar: sök efter stad, och spela/stoppa stadens ljud -->
+    <button id="searchBtn" type="button">Let's go</button>
+    <button id="playBtn" type="button" disabled>Listen</button>
 
+    <!-- Statusrad: små meddelanden + fel (aria-live så skärmläsare uppfattar ändringar) -->
+    <p id="status" role="status" aria-live="polite"></p>
+  </section>
 
-
-
-<!-- Karta i fullskärm -->
-<div id="map" aria-label="Interaktiv karta"></div>
+  <!-- Här ritar Leaflet in kartan i fullhöjd/fulllbredd -->
+  <div id="map" aria-label="Interaktiv karta"></div>
+</main>
 </body>
 </html>
