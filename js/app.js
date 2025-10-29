@@ -20,12 +20,13 @@ document.addEventListener('DOMContentLoaded', () => {
   const map = L.map('map').setView([35.0, 13.0], 3);
 
   L.tileLayer(
-    'https://tiles-eu.stadiamaps.com/tiles/stamen_watercolor/{z}/{x}/{y}.jpg?api_key=4cb41a99-be51-4840-bab5-6dcf54a4deb4',
+    `https://tiles-eu.stadiamaps.com/tiles/stamen_watercolor/{z}/{x}/{y}.jpg?api_key=${STADIA_API_KEY}`,
     {
       maxZoom: 16,
       attribution: '© Stadia Maps © Stamen Design © OpenStreetMap'
     }
   ).addTo(map);
+
 
   let marker = null;
   let currentAudio = null;

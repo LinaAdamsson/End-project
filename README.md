@@ -7,6 +7,7 @@ Added API.
 Created fetch functions.
 Added city sounds.
 Added API key.
+Moved api to gitignore.
 
 # HTML Added structure to HTML.
 Added logo.
