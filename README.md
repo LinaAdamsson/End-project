@@ -11,15 +11,16 @@ Added API key.
 Moved api to gitignore.
 Added comments.
 
-# HTML Added structure to HTML.
+# HTML
+Added structure to HTML.
 Added logo.
 Added comments.
 
-#Setup
+# Setup
 Created project using HTML5 Boilerplate.
 Added gitignore.
 
-#Project description
+# Project description
 AUDIO ATLAS – An interactive sound map, a kind of Google Maps for your ears which lets you listen to the world. Users can search for any city on a Leaflet map and play a location related soundscape. The app demonstrates fetch from Nominatim (OpenStreetMap API) for geolocation and integrates Freesound audio samples to create an immersive sensory experience.
 
 # End-project
