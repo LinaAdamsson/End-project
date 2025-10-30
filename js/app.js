@@ -6,12 +6,14 @@ const statusEl = document.getElementById('status');
 const logoEl = document.getElementById('logo');
 
 // Här skapar jag en variabel för Leaflet-kartan. Jag har ställt in den så att fokus i startläge ligger på Centraleuropa.
+//  Leaflet är ett JS-bibliotek
 const map = L.map('map').setView([35.0, 13.0], 3);
 
 // Här hämtar jag en serie kartbilder (tiles) från Stadia Maps API, jag använder “Stamen Watercolor”-stilen.
 L.tileLayer(
   `https://tiles-eu.stadiamaps.com/tiles/stamen_watercolor/{z}/{x}/{y}.jpg?api_key=${STADIA_API_KEY}`, // Min API-nyckel
-  // ligger i js/config.js. som i sin tur ligger i .gitignore (så att den inte hamnar på GitHub).
+  // ligger i js/config.js. som i sin tur ligger i .gitignore (så att den inte hamnar på GitHub). Stadia Maps är en
+  // API-tjänst, men hämtningen av tiles/anropet sker genom Leaflet så detta är inte en fetch().
   {
     maxZoom: 16, // Här begränsas zoomnivån till 16, mer än så ledde till buggar.
     attribution: '© Stadia Maps © Stamen Design © OpenStreetMap' // Här anges källan.
